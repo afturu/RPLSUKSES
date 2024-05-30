@@ -1,0 +1,175 @@
+import React, { useCallback, useRef, useState } from 'react';
+import {
+  Animated,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { Feather } from '@expo/vector-icons';
+
+const FormuliranjemWidget = () => {
+  const [text1, setText1] = useState('');
+  const [text2, setText2] = useState('');
+  const [text3, setText3] = useState('');
+
+  const textFieldFocusNode1 = useRef(null);
+  const textFieldFocusNode2 = useRef(null);
+  const textFieldFocusNode3 = useRef(null);
+
+  const onSubmitEditing1 = useCallback(() => {
+    textFieldFocusNode2.current?.focus();
+  }, []);
+
+  const onSubmitEditing2 = useCallback(() => {
+    textFieldFocusNode3.current?.focus();
+  }, []);
+
+  const onSubmitEditing3 = useCallback(() => {}, []);
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Jasa Antar Jemput</Text>
+      </View>
+      <View style={styles.formContainer}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={text1}
+            onChangeText={setText1}
+            onSubmitEditing={onSubmitEditing1}
+            returnKeyType="next"
+            blurOnSubmit={false}
+            placeholder="Alamat Tujuan"
+            ref={textFieldFocusNode1}
+          />
+          <Animated.View
+            style={[
+              styles.underline,
+              {
+                transform: [
+                  {
+                    scaleX: new Animated.Value(text1.length > 0 ? 1 : 0),
+                  },
+                ],
+              },
+            ]}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={text2}
+            onChangeText={setText2}
+            onSubmitEditing={onSubmitEditing2}
+            returnKeyType="next"
+            blurOnSubmit={false}
+            placeholder="Titik Jemput"
+            ref={textFieldFocusNode2}
+          />
+          <Animated.View
+            style={[
+              styles.underline,
+              {
+                transform: [
+                  {
+                    scaleX: new Animated.Value(text2.length > 0 ? 1 : 0),
+                  },
+                ],
+              },
+            ]}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={text3}
+            onChangeText={setText3}
+            onSubmitEditing={onSubmitEditing3}
+            returnKeyType="done"
+            blurOnSubmit={false}
+            placeholder="Detail order"
+            multiline
+            numberOfLines={16}
+            ref={textFieldFocusNode3}
+          />
+        </View>
+      </View>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            print('Button pressed ...');
+          }}
+        >
+          <Text style={styles.buttonText}>Submit </Text>
+          <Feather name="receipt-long" size={15} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  headerContainer: {
+    paddingVertical: 24,
+  },
+  headerText: {
+    fontFamily: 'Outfit',
+    fontSize: 24,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  formContainer: {
+    marginTop: 16,
+  },
+  inputContainer: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  textInput: {
+    height: 48,
+    borderColor: '#dbdbdb',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingRight: 56,
+  },
+  underline: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 2,
+    backgroundColor: '#1a73e8',
+  },
+  button: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    borderRadius: 8,
+    backgroundColor: '#1a73e8',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontFamily: 'Outfit',
+    fontSize: 16,
+    marginRight: 8,
+  },
+});
+
+export default FormuliranjemWidget;
+
